@@ -7,7 +7,7 @@ const base_url = "http://localhost:4000/api";
 export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [username, setName] = useState("");
+    const [name, setName] = useState("");
 
     async function register(e: { preventDefault: () => void; }) {
         e.preventDefault();
@@ -15,7 +15,7 @@ export default function Register() {
         const registerData = {
             email,
             password,
-            username,
+            name,
         };
 
         try {            
@@ -59,7 +59,7 @@ export default function Register() {
                     id="register-name"
                     placeholder="Enter your name"
                     onChange={(e) => setName(e.target.value)}
-                    value={username}
+                    value={name}
                 />
 
                 <button type="submit">Register</button>

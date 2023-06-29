@@ -9,12 +9,8 @@ const UserSchema = new Schema({
     name: String, 
     email: String,
     password: String,
-    street: String,
-    apartment: String,
-    city: String,
-    zip: String,
-    country: String,
     phone: Number,
+    dateCreated: Date,
     isAdmin: Boolean
 
 })
@@ -22,21 +18,23 @@ const UserSchema = new Schema({
 export const User = mongoose.model('User', UserSchema)
 
 export async function CreateNewUser (req, res) {
-    const username = req.body.username;
+    const name = req.body.name;
     const email = req.body.email;
     const passwordRaw = req.body.password
-    console.log(username, email, passwordRaw)
 
     const passwordHashed = await bcrypt.hash(passwordRaw, 10)
 
     const newUser = await User.create({
-        username: username,
+        name: name,
         email: email,
-        password: passwordHashed
+        password: passwordHashed,
+        dateCreated: Date.now(),
+        isAdmin: false
     });
 
     res.status(201).json(newUser)
 }
+
 
 function generateToken(userId) {
     return jwt.sign({
@@ -45,18 +43,19 @@ function generateToken(userId) {
 }
 
 export async function VerifyUser (req, res) {
-    const email = req.body.email;
+    const name = req.body.name;
     const password = req.body.password;
-    console.log("email: " + email, "password: " + password);
     
-    const user = await User.findOne({ email: email })
+    const user = await User.findOne({ name: name })
 
     if (user && (await bcrypt.compare(password, user.password))) {
         const data = {
             _id: user._id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id)
+            dateCreated: user.dateCreated,
+            token: generateToken(user._id),
+            isAdmin: user.isAdmin
         }
         console.log(data);
         res.status(200).json(data)
@@ -68,21 +67,3 @@ export async function VerifyUser (req, res) {
         })
     }
 }
-
-// export async function LoginUser (req, res) {
-//     const content = req.body;
-//     console.log(content)
-
-//     const email = content.email;
-//     const passwordRaw = content.password;
-//     const passwordHashed = await bcrypt.hash(passwordRaw, 10)
-//     const checkEmail = User.findOne({ email: email })
-//     const user = User.findOne({ email: email })
-
-//     if (user && passwordHashed) {
-//         res.status(200).json({
-//             success: true
-//         })
-//     }
-// }
-

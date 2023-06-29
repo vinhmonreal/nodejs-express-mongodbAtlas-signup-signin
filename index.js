@@ -9,8 +9,9 @@ import { ProductModel, CreateNewProduct } from './models/product.js';
 import {  CreateNewUser, VerifyUser} from './models/user.js';
 import { User } from './models/user.js';
 import bcrypt from 'bcrypt';
-
+import { CreateNewDrink } from './models/Drinks.js';
 import cors from 'cors';
+
 
 export const api = process.env.API_URL;
 // // get config vars
@@ -22,6 +23,10 @@ app.use(bodyParser.json());
 app.use(morgan('tiny')); // log requests
 app.use(cors());
 app.post(`${api}/auth/register`, CreateNewUser);
+app.post(`${api}/auth/verify`, VerifyUser);
+app.post(`${api}/admin/createDrink`, CreateNewDrink);
+
+
 
 app.post(`${api}/createproduct`, CreateNewProduct);
 
@@ -35,7 +40,6 @@ app.get(`${api}/products`, async (req, res) => {
 });    
 
 
-app.post(`${api}/auth/verify`, VerifyUser);
 
 
 
