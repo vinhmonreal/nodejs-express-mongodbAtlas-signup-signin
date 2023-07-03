@@ -2,7 +2,7 @@ import axios, { Axios } from "axios";
 import { useState } from "react";
 
 
-const base_url = "http://localhost:4000/api";
+const base_url = import.meta.env.VITE_BASE_URL 
 
 export default function Register() {
     const [email, setEmail] = useState("");
