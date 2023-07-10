@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from '../contexts/UserProvider';
 import { useNavigate } from "react-router-dom";
 
-const base_url = "http://localhost:4000/api";
+const base_url = import.meta.env.VITE_BASE_URL 
 export default function Login() {
     const navigate = useNavigate();
     const [password, setPassword] = useState("");

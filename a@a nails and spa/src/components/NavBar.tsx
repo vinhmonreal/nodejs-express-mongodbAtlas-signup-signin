@@ -42,8 +42,8 @@ export default function Sidebar() {
       </Nav.Item>
 
       <Nav.Item>
-        <Nav.Link as={NavLink} to="/service">
-          service
+        <Nav.Link as={NavLink} to="/services">
+          services
         </Nav.Link>
       </Nav.Item>
       {user.isAdmin ? (
